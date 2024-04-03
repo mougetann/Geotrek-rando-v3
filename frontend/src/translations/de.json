@@ -100,7 +100,8 @@
         "experiences": "Lieux de pratique",
         "signage": "Beschilderung",
         "infrastructure": "Infrastructures",
-        "service": "Others infos"
+        "service": "Others infos",
+        "annotations": "Annotations"
       },
       "resetView": "Karte zentrieren"
     },
@@ -120,13 +121,14 @@
     "poiFullTitle": "{count, plural, =0 {Kein Erbe} one {# Erbe zu entdecken} other {Die # Erbgüter, die es zu entdecken gilt}}",
     "source": "Quelle",
     "touristicContent": "In der Nähe",
-    "readMore": "weiterlesen",
     "knowMore": "Mehr darüber erfahren",
-    "readLess": "weniger lesen",
+    "moreInformation": "More information",
+    "lessInformation": "Less information",
     "close": "Schließen",
     "description": "Beschreibung",
     "recommandations": "Empfehlungen",
     "informationDesks": "Orte der Information",
+    "medias": "Medien",
     "practicalInformations": "Praktische Informationen",
     "forecastWidget": "Wetterbericht",
     "accessibility": "Zugänglichkeit",
@@ -240,6 +242,13 @@
     "coursesFullTitle": "Les {count} parcours à découvrir",
     "sitesFullTitle": "Die {count} Orte der Praxis, die es zu entdecken gilt"
   },
+  "viewPoint": {
+    "title": "HD-Fotos",
+    "label": "HD-Foto",
+    "description": "Navigieren Sie durch angereicherte, interaktive \"ultrahochauflösende\" Bilder",
+    "credit": "Fotogutschrift:",
+    "displayPicture": "Foto durchsuchen"
+  },
   "Wind": {
     "N": "Norden",
     "S": "Süden",
@@ -271,6 +280,10 @@
     "numberOfParticipants": "Zahl der Teilnehmer",
     "courseType": "Art des Rennens",
     "network": "Netzwerk"
+  },
+  "accordion": {
+    "open": "Open",
+    "close": "Close"
   },
   "consents": {
     "modal": {

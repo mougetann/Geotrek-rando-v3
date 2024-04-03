@@ -2,6 +2,7 @@ import { Florist } from 'components/Icons/Florist';
 import { Signage } from 'components/Icons/Signage';
 import { Infrastructure } from 'components/Icons/Infrastructure';
 import { MapPin } from 'components/Icons/MapPin';
+import { ViewPoint } from 'components/Icons/ViewPoint';
 import { Line } from './Line';
 import IconLocation from './IconLocation';
 import IconInfo from './IconInfo';
@@ -33,6 +34,10 @@ export const ControlPanel: React.FC<ControlSectionProps & { id: string }> = ({
   toggleServiceVisibility,
   infrastructureVisibility,
   toggleInfrastructureVisibility,
+  annotationViewpointVisibility,
+  toggleAnnotationViewpointVisibility,
+  viewPointVisibility,
+  toggleViewPointVisiblity,
 }) => {
   return (
     <div className="flex flex-col bg-white shadow-lg p-4 rounded-2xl w-[230px] gap-4" id={id}>
@@ -114,6 +119,22 @@ export const ControlPanel: React.FC<ControlSectionProps & { id: string }> = ({
           active={serviceVisibility === 'DISPLAYED'}
           toggle={toggleServiceVisibility}
           transKey="search.map.panel.service"
+        />
+      )}
+      {viewPointVisibility && toggleViewPointVisiblity && (
+        <Line
+          icon={ViewPoint}
+          active={viewPointVisibility === 'DISPLAYED'}
+          toggle={toggleViewPointVisiblity}
+          transKey="viewPoint.title"
+        />
+      )}
+      {annotationViewpointVisibility && toggleAnnotationViewpointVisibility && (
+        <Line
+          icon={IconInfo}
+          active={annotationViewpointVisibility === 'DISPLAYED'}
+          toggle={toggleAnnotationViewpointVisibility}
+          transKey="search.map.panel.annotations"
         />
       )}
     </div>

@@ -100,7 +100,8 @@
         "experiences": "Lieux de pratique",
         "signage": "Señalización",
         "infrastructure": "Infrastructures",
-        "service": "Others infos"
+        "service": "Others infos",
+        "annotations": "Annotations"
       },
       "resetView": "Centrarse la mapa"
     },
@@ -120,13 +121,14 @@
     "poiFullTitle": "{count, plural, =0 {sin patrimonio} one {# patrimonio para descubrir} other {Els # patrimonios para descubrir}}",
     "source": "Fuente",
     "touristicContent": "Cercano",
-    "readMore": "lleer más",
     "knowMore": "Más información",
-    "readLess": "lleer menos",
+    "moreInformation": "More information",
+    "lessInformation": "Less information",
     "close": "Cerrar",
     "description": "Descripción",
     "recommandations": "Recomendaciones",
     "informationDesks": "Lugares de información",
+    "medias": "Medias",
     "practicalInformations": "Infos prácticas",
     "forecastWidget": "Reporte del clima",
     "accessibility": "Accesibilidad",
@@ -240,6 +242,13 @@
     "coursesFullTitle": "Les {count} parcours à découvrir",
     "sitesFullTitle": "Los {count} lugares de práctica para descubrir"
   },
+  "viewPoint": {
+    "title": "Fotos HD",
+    "description": "Navegue por imágenes enriquecidas e interactivas de \"ultra alta definición\"",
+    "label": "Foto HD",
+    "credit": "Crédito de la foto:",
+    "displayPicture": "Examinar foto"
+  },
   "Wind": {
     "N": "Norte",
     "S": "Sur",
@@ -271,6 +280,10 @@
     "numberOfParticipants": "Número de participantes",
     "courseType": "Tipo de carrera",
     "network": "La red"
+  },
+  "accordion": {
+    "open": "Open",
+    "close": "Close"
   },
   "consents": {
     "modal": {

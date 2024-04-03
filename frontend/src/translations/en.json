@@ -103,7 +103,8 @@
         "experiences": "Lieux de pratique",
         "signage": "Signage",
         "infrastructure": "Infrastructures",
-        "service": "Others infos"
+        "service": "Others infos",
+        "annotations": "Annotations"
       },
       "resetView": "Recenter map"
     },
@@ -123,13 +124,14 @@
     "poiFullTitle": "{count, plural, =0 {No point of interest} one {# point of interest} other {# points of interest}}",
     "source": "Source",
     "touristicContent": "Close by",
-    "readMore": "read more",
     "knowMore": "Find out more",
-    "readLess": "read less",
+    "moreInformation": "More information",
+    "lessInformation": "Less information",
     "close": "Close",
     "description": "Description",
     "recommandations": "Recommandations",
     "informationDesks": "Information desks",
+    "medias": "Medias",
     "practicalInformations": "Practical informations",
     "forecastWidget": "Forecast",
     "accessibility": "Accessibility",
@@ -247,6 +249,13 @@
     "coursesFullTitle": "Les {count} parcours à découvrir",
     "sitesFullTitle": "The {count} places of practice to discover"
   },
+  "viewPoint": {
+    "title": "HD pictures",
+    "label": "HD picture",
+    "description": "Navigate through enriched, interactive \"ultra High Definition\" pictures",
+    "credit": "Picture credit:",
+    "displayPicture": "Display picture"
+  },
   "Wind": {
     "N": "North",
     "S": "South",
@@ -317,6 +326,10 @@
     "numberOfParticipants": "Number of participants",
     "courseType": "Course type",
     "network": "Network"
+  },
+  "accordion": {
+    "open": "Open",
+    "close": "Close"
   },
   "consents": {
     "modal": {

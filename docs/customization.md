@@ -28,7 +28,7 @@ In json files, you can just override the primary keys you need. You have to over
   - `privacyPolicyLink`: link of the privacy policy (More information in [GDPR documentation](customization-scripts-GDPR.md#GDPR)).
   - `googleAnalyticsId`: eventual Google Analytics Id (to activate it, you must set `privacyPolicyLink`)
   - `googleSiteVerificationToken`: eventual code to enable Google Search Console and Google developer tools
-  - `enableIndexation` to disable search engine indexation
+  - `enableIndexation`: set this parameter to `false` to disable search engine indexing (default `true`)
   - `baseUrl`: base URL of your portal (for dynamic sitemap.xml)
   - `fallbackImageUri`: this uri is used to generate a default image for a trek or a touristic content if none is defined
   - `touristicContentLabelImageUri` : this uri is used to define the logo of the labeled touristic contents:
@@ -192,6 +192,19 @@ NB: For "report" and "reservationWidget" sections with `anchors` set to `true`, 
   NB: If you want to have only one map available, you can add `mapSatelliteLayers: null`. This will remove the button that allows the user to switch between two map layers.
 
   - `zoomAvailableOffline` allows you to define the zoom modes allowed in offline mode. This allows you to control the amount of disk space required when caching. Default `[13,14,15]`
+
+- `resultCard.json` to customize the elements to be displayed on featured cards that link to a details page (only trek cards for now).
+
+  - You can display/hide the `location` and `themes` by defining a `display` key.
+  - You can define an array of keywords in `informations` to display them (their order in the array matters). The keywords are as follows:
+    - `'difficulty'`,
+    - `'duration'`,
+    - `'distance'`,
+    - `'positiveElevation'`,
+    - `'negativeElevation'`,
+    - `'courseType'`,
+    - `'networks'`,
+      Default value is `"informations": ["difficulty", "duration", "distance", "positiveElevation"]`. See https://github.com/GeotrekCE/Geotrek-rando-v3/blob/main/frontend/config/resultCard.json.
 
 - `redirects.json` to define URL rewriting for your instance. For example, you can use this customization to redirect old URL style (Geotrek-rando V2) to the new URL style (Geotrek-rando V3) or to redirect old URL to a new URL after changing the name of a hike in the backend.
 

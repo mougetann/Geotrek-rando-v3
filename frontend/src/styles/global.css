@@ -76,3 +76,16 @@
 .leaflet-container .leaflet-control-zoom {
   @apply order-first;
 }
+
+.leaflet-container:fullscreen #backToMapButton {
+	@apply hidden;
+}
+
+.leaflet-interactive.annotation {
+  stroke: red;
+  fill: green;
+}
+
+.leaflet-interactive.annotation-line {
+  fill: none;
+}

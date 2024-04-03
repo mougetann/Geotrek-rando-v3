@@ -1,3 +1,4 @@
+import getNextConfig from 'next/config';
 import { getTouristicContentCategories } from 'modules/touristicContentCategory/connector';
 import { getActivities } from 'modules/activities/connector';
 import { getDifficulties } from 'modules/filters/difficulties';
@@ -9,6 +10,9 @@ import { DateFilter } from 'modules/filters/interface';
 import { TouristicContentResult } from 'modules/touristicContent/interface';
 import { adaptTouristicContentResult } from 'modules/touristicContent/adapter';
 import { CommonDictionaries } from 'modules/dictionaries/interface';
+import { getNetworks } from 'modules/networks/connector';
+import { NetworkDictionnary } from 'modules/networks/interface';
+import { getCourseType } from 'modules/filters/courseType/connector';
 import { getOutdoorPractices } from '../outdoorPractice/connector';
 import { adaptoutdoorSitesResult } from '../outdoorSite/adapter';
 import { fetchOutdoorSites } from '../outdoorSite/api';
@@ -17,6 +21,13 @@ import { adaptTouristicEventsResult } from '../touristicEvent/adapter';
 import { fetchTouristicEvents } from '../touristicEvent/api';
 import { TouristicEventResult } from '../touristicEvent/interface';
 import { getTouristicEventTypes } from '../touristicEventType/connector';
+const {
+  publicRuntimeConfig: {
+    resultCard: {
+      trek: { informations = [] },
+    },
+  },
+} = getNextConfig();
 
 import { adaptTrekResultList } from './adapter';
 import {
@@ -253,14 +264,29 @@ export const getSearchResults = async (
       getOutdoorPractices(language),
     ]);
 
-    const [touristicEventType] = await Promise.all([getTouristicEventTypes(language)]);
+    const touristicEventType = await getTouristicEventTypes(language);
+    const networks = await getNetworks(language);
+
+    const trekResultWithCourseType =
+      rawTrekResults.results.length > 0
+        ? await Promise.all(
+            rawTrekResults.results.map(async trek => {
+              if (!trek.route) {
+                return trek;
+              }
+              const courseType = await getCourseType(trek.route, language);
+              return { ...trek, courseType };
+            }),
+          )
+        : [];
 
     const adaptedResultsList: TrekResult[] = adaptTrekResultList({
-      resultsList: rawTrekResults.results,
+      resultsList: trekResultWithCourseType,
       difficulties,
       themes,
       activities,
       cityDictionnary: cities,
+      networks,
     });
 
     const adaptedTouristicContentsList: TouristicContentResult[] = adaptTouristicContentResult({
@@ -330,6 +356,7 @@ export const getSearchResults = async (
 export const getTrekResultsById = async (
   trekIds: number[],
   language: string,
+  networks: NetworkDictionnary,
   commonDictionaries?: CommonDictionaries,
 ): Promise<TrekResult[]> => {
   try {
@@ -347,7 +374,17 @@ export const getTrekResultsById = async (
       getActivities(language),
     ]);
     const rawTrekResults = await Promise.all(
-      trekIds.map(trekId => fetchTrekResult({ language }, trekId)),
+      trekIds.map(async trekId => {
+        const trek = await fetchTrekResult({ language }, trekId);
+        if (!trek) {
+          return trek;
+        }
+        if (!informations.includes('courseType')) {
+          return trek;
+        }
+        const courseType = await getCourseType(trek.route, language);
+        return { ...trek, courseType };
+      }),
     );
     return adaptTrekResultList({
       resultsList: rawTrekResults,
@@ -355,6 +392,7 @@ export const getTrekResultsById = async (
       themes,
       activities,
       cityDictionnary: cities,
+      networks,
     });
   } catch (e) {
     console.error('Error in results connector', e);
@@ -368,17 +406,35 @@ export const getTrekResults = async (
   commonDictionaries: CommonDictionaries,
 ): Promise<TrekResult[]> => {
   const { cities, themes } = commonDictionaries;
-  const [rawTrekResults, difficulties, activities] = await Promise.all([
+  const [rawTrekResults, difficulties, activities, networks] = await Promise.all([
     fetchTrekResults({ language, ...query }),
     getDifficulties(language),
     getActivities(language),
+    informations.includes('networks') ? getNetworks(language) : {},
   ]);
 
+  const trekResultWithCourseType =
+    rawTrekResults.results.length > 0
+      ? await Promise.all(
+          rawTrekResults.results.map(async trek => {
+            if (!trek.route) {
+              return trek;
+            }
+            if (!informations.includes('courseType')) {
+              return trek;
+            }
+            const courseType = await getCourseType(trek.route, language);
+            return { ...trek, courseType };
+          }),
+        )
+      : [];
+
   return adaptTrekResultList({
-    resultsList: rawTrekResults.results,
+    resultsList: trekResultWithCourseType,
     difficulties,
     themes,
     activities,
     cityDictionnary: cities,
+    networks,
   });
 };

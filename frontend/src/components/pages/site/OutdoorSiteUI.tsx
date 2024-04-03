@@ -18,7 +18,7 @@ import {
 } from 'components/pages/details/utils';
 import { VisibleSectionProvider } from 'components/pages/details/VisibleSectionContext';
 import { DetailsChildrenSection } from 'components/pages/details/components/DetailsChildrenSection';
-import { useMemo, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Loader from 'components/Loader';
 import { useMediaPredicate } from 'react-media-hook';
@@ -42,6 +42,7 @@ import { DetailsCoverCarousel } from '../details/components/DetailsCoverCarousel
 import { DetailsSensitiveArea } from '../details/components/DetailsSensitiveArea';
 import { DetailsAndMapProvider } from '../details/DetailsAndMapContext';
 import { useDetailsSections } from '../details/useDetailsSections';
+import { DetailsMedias } from '../details/components/DetailsMedias';
 
 interface Props {
   outdoorSiteUrl: string | string[] | undefined;
@@ -60,6 +61,8 @@ const OutdoorSiteUIWithoutContext: React.FC<Props> = ({ outdoorSiteUrl, language
     sectionsReferences,
     sectionsPositions,
     sectionRef,
+    mapId,
+    setMapId,
   } = useOutdoorSite(outdoorSiteUrl, language);
 
   const intl = useIntl();
@@ -84,6 +87,14 @@ const OutdoorSiteUIWithoutContext: React.FC<Props> = ({ outdoorSiteUrl, language
       sizes.desktopHeader -
       sizes.detailsHeaderDesktop,
   });
+
+  const handleViewPointClick = useCallback(
+    (viewPointId: string) => {
+      setMapId(viewPointId);
+      displayMobileMap();
+    },
+    [displayMobileMap, setMapId],
+  );
 
   return useMemo(
     () => (
@@ -117,7 +128,7 @@ const OutdoorSiteUIWithoutContext: React.FC<Props> = ({ outdoorSiteUrl, language
                 id="outdoorSiteContent_informations"
                 className="flex flex-col w-full relative -top-detailsHeaderMobile desktop:top-0 desktop:w-3/5"
               >
-                <OpenMapButton displayMap={displayMobileMap} />
+                <OpenMapButton displayMap={displayMobileMap} setMapId={setMapId} />
                 <div className="desktop:h-coverDetailsDesktop">
                   <Modal>
                     {({ isFullscreen, toggleFullscreen }) => (
@@ -189,6 +200,26 @@ const OutdoorSiteUIWithoutContext: React.FC<Props> = ({ outdoorSiteUrl, language
                       );
                     }
                     if (
+                      hasNavigator &&
+                      section.name === 'medias' &&
+                      outdoorSiteContent.viewPoints.length > 0
+                    ) {
+                      return (
+                        <section
+                          key={section.name}
+                          ref={sectionRef[section.name]}
+                          id={`details_${section.name}_ref`}
+                        >
+                          <DetailsSection htmlId="details_medias" className={marginDetailsChild}>
+                            <DetailsMedias
+                              viewPoints={outdoorSiteContent.viewPoints}
+                              handleViewPointClick={handleViewPointClick}
+                            />
+                          </DetailsSection>
+                        </section>
+                      );
+                    }
+                    if (
                       section.name === 'poi' &&
                       outdoorSiteContent?.pois?.length &&
                       Number(outdoorSiteContent?.pois?.length) > 0
@@ -213,8 +244,10 @@ const OutdoorSiteUIWithoutContext: React.FC<Props> = ({ outdoorSiteUrl, language
                               attachments: poi.attachments,
                               iconUri: poi.type.pictogramUri,
                               iconName: poi.type.label,
+                              viewPoints: poi.viewPoints,
                             }))}
                             type="POI"
+                            handleViewPointClick={handleViewPointClick}
                           />
                         </section>
                       );
@@ -531,6 +564,7 @@ const OutdoorSiteUIWithoutContext: React.FC<Props> = ({ outdoorSiteUrl, language
                 )}
               >
                 <DetailsMapDynamicComponent
+                  mapId={mapId}
                   courses={outdoorSiteContent?.courses}
                   experiences={outdoorSiteContent?.children}
                   hasZoomControl={!isMobile}
@@ -576,6 +610,14 @@ const OutdoorSiteUIWithoutContext: React.FC<Props> = ({ outdoorSiteUrl, language
                   }))}
                   infrastructure={outdoorSiteContent.infrastructure}
                   hideMap={hideMobileMap}
+                  viewPoints={[
+                    ...outdoorSiteContent.viewPoints,
+                    ...outdoorSiteContent.pois
+                      .flatMap(({ viewPoints = [] }) => viewPoints)
+                      .filter(Boolean),
+                  ]}
+                  displayMap={displayMobileMap}
+                  setMapId={setMapId}
                 />
               </div>
             </div>
@@ -583,7 +625,7 @@ const OutdoorSiteUIWithoutContext: React.FC<Props> = ({ outdoorSiteUrl, language
         )}
       </>
     ),
-    [outdoorSiteContent, isLoading, mobileMapState, sectionsReferences, hasNavigator],
+    [outdoorSiteContent, isLoading, mobileMapState, sectionsReferences, hasNavigator, mapId],
   );
 };
 

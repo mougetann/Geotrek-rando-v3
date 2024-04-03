@@ -2,6 +2,8 @@ import { Activity } from 'modules/activities/interface';
 import { Attachment, RawAttachment } from 'modules/interface';
 import { TouristicContentResult } from 'modules/touristicContent/interface';
 import { TouristicEventResult } from 'modules/touristicEvent/interface';
+import { Network } from 'modules/networks/interface';
+import { CourseType } from 'modules/filters/courseType/interface';
 import { OutdoorSiteResult } from '../outdoorSite/interface';
 
 export interface InformationCardTuple {
@@ -17,6 +19,11 @@ export interface InformationCardLabelValues {
   }[];
 }
 
+export interface InformationCardArray {
+  label: 'networks';
+  value: Network[];
+}
+
 interface InformationCardOthers {
   label: string;
   value: string | number;
@@ -25,6 +32,7 @@ interface InformationCardOthers {
 export type InformationCard = (
   | InformationCardTuple
   | InformationCardLabelValues
+  | InformationCardArray
   | InformationCardOthers
 ) & { pictogramUri?: string };
 
@@ -33,7 +41,7 @@ export interface ResultCard {
   name: string;
   attachments: Attachment[];
   tags?: string[];
-  place: string;
+  place: string | null;
   informations?: InformationCard[];
 }
 
@@ -76,6 +84,7 @@ export interface RawTrekResults {
 export interface RawTrekResult {
   id: number;
   ascent: number;
+  descent: number;
   departure: string;
   difficulty: number | null;
   duration: number | null;
@@ -86,6 +95,9 @@ export interface RawTrekResult {
   reservation_system: null | number;
   attachments: RawAttachment[];
   practice: number;
+  networks: number[];
+  route: number | null;
+  courseType?: CourseType | null;
 }
 
 export interface Thumbnail {

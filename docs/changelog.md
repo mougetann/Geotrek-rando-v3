@@ -1,5 +1,40 @@
 # Changelog
 
+## 3.18.0 (2024-02-08)
+
+**🚀 New features**
+
+- Add HD viewpoints on treks, outdoor sites and POIs (#943)
+
+**🔧 Maintenance**
+
+- Bump @types/node from 16.9.4 to 20.11.10 #1042
+- Bump actions/upload-artifact from 3 to 4 #1036
+- Bump docker/metadata-action from 4 to 5 #1035
+- Bump actions/checkout from 3 to 4 #1034
+- Bump docker/build-push-action from 3 to 5 #1033
+- Bump docker/login-action from 2 to 3 #1032
+
+## 3.17.1 (2024-01-25)
+
+**🚀 New features**
+
+- Customization of result card (#987)
+
+**✨ Improvements**
+
+- Remove the limitation of result card max height (#1012)
+
+**🔧 Maintenance**
+
+- Upgrade Cypress package to 13.6.3 (#1028)
+- Run Cypress tests on CI (#948 and #1028)
+
+**🐛 Fixes**
+
+- Fix regression customization header - regression since v3.17.0 (#1019 and #1020)
+- Fix scriptsHeader/Footer containing only one node - regression since v3.15.4 (#1029 and #1030)
+
 ## 3.17.0 (2024-01-12)
 
 Require Geotrek-admin 2.98.0 (March 2023) minimum.
@@ -7,6 +42,7 @@ Require Geotrek-admin 2.98.0 (March 2023) minimum.
 **💥 Breaking changes**
 
 - This version of Geotrek-rando may not work correctly if connected to a Geotrek-admin API lower than version [2.98.0](https://github.com/GeotrekCE/Geotrek-admin/releases/tag/2.98.0), due to the modification of parameters to obtain treks near POIs and sensitive areas. (#890)
+- If you've defined the `home.json` file with `activityBar` property in your customization files, make sure your override contains the `links` property.
 
 **🚀 New features**
 

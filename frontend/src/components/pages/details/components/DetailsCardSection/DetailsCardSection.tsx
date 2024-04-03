@@ -12,6 +12,7 @@ interface DetailsCardSectionProps {
   generateUrlFunction?: (id: string | number, title: string) => string;
   type: 'POI' | 'TOURISTIC_CONTENT';
   htmlId?: string;
+  handleViewPointClick?: (id: string) => void;
 }
 
 export const DetailsCardSection: React.FC<DetailsCardSectionProps> = ({
@@ -21,6 +22,7 @@ export const DetailsCardSection: React.FC<DetailsCardSectionProps> = ({
   displayBadge = false,
   generateUrlFunction,
   type,
+  handleViewPointClick,
 }) => {
   return (
     <div id={htmlId} className="pt-6 desktop:pt-12 scroll-mt-20 desktop:scroll-mt-30">
@@ -33,7 +35,7 @@ export const DetailsCardSection: React.FC<DetailsCardSectionProps> = ({
       </h2>
       <ScrollContainer
         id="details_cardSectionScrollContainer"
-        className="flex desktop:flex-col items-stretch
+        className="flex desktop:flex-col items-start desktop:items-stretch
         overflow-x-auto desktop:overflow-x-hidden
         overflow-y-hidden desktop:overflow-y-auto
         scroll-smooth snap-x
@@ -58,6 +60,8 @@ export const DetailsCardSection: React.FC<DetailsCardSectionProps> = ({
                 : undefined
             }
             type={type}
+            handleViewPointClick={handleViewPointClick}
+            viewPoints={card.viewPoints}
           />
         ))}
       </ScrollContainer>

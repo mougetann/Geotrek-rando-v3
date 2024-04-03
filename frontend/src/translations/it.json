@@ -103,7 +103,8 @@
         "experiences": "Lieux de pratique",
         "signage": "Segnaletica",
         "infrastructure": "Infrastructures",
-        "service": "Others infos"
+        "service": "Others infos",
+        "annotations": "Annotations"
       },
       "resetView": "Rimettere a fuoco la mappa"
     },
@@ -123,13 +124,14 @@
     "poiFullTitle": "{count, plural, =0 {Nessun patrimonio} one {# Patrimonio da scoprire} other {# I patrimoni da scoprire}}",
     "source": "Autore",
     "touristicContent": "Vicino",
-    "readMore": "Continua a leggere",
     "knowMore": "Saperne di più",
-    "readLess": "Leggere meno",
+    "moreInformation": "More information",
+    "lessInformation": "Less information",
     "close": "Chiudere",
     "description": "Descrizione",
     "recommandations": "Raccomandazioni",
     "informationDesks": "Luoghi di informazione",
+    "medias": "Medias",
     "practicalInformations": "Informazioni pratiche",
     "forecastWidget": "Bollettino meteorologico",
     "accessibility": "Accessibilità",
@@ -250,6 +252,13 @@
     "coursesFullTitle": "Les {count} parcours à découvrir",
     "sitesFullTitle": "Il {conteggio} dei luoghi di pratica da scoprire"
   },
+  "viewPoint": {
+    "title": "Foto HD",
+    "label": "Foto HD",
+    "description": "Navigare attraverso immagini arricchite e interattive ad \"altissima definizione\"",
+    "credit": "Credito foto:",
+    "displayPicture": "Sfoglia foto"
+  },
   "Wind": {
     "N": "Nord",
     "S": "Sud",
@@ -281,6 +290,10 @@
     "numberOfParticipants": "Numero di partecipanti",
     "courseType": "Tipo de gara",
     "network": "Rete"
+  },
+  "accordion": {
+    "open": "Open",
+    "close": "Close"
   },
   "consents": {
     "modal": {

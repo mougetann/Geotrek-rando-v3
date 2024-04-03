@@ -100,7 +100,8 @@
         "experiences": "Lieux de pratique",
         "signage": "Senyalització",
         "infrastructure": "Infrastructures",
-        "service": "Others infos"
+        "service": "Others infos",
+        "annotations": "Annotations"
       },
       "resetView": "Recenter el mapa"
     },
@@ -120,13 +121,14 @@
     "poiFullTitle": "{count, plural, =0 {sense patrimoni} one {# patrimoni a descobrir} other {Els # patrimonis a descobrir}}",
     "source": "Font",
     "touristicContent": "Proper",
-    "readMore": "llegir més",
     "knowMore": "Més informació",
-    "readLess": "llegir menys",
+    "moreInformation": "More information",
+    "lessInformation": "Less information",
     "close": "Tancar",
     "description": "Descripció",
     "recommandations": "Recomanacions",
     "informationDesks": "Llocs d’informació",
+    "medias": "Mitjans de comunicació",
     "practicalInformations": "Infos pràctiques",
     "forecastWidget": "Informe del temps",
     "accessibility": "Accessibilitat",
@@ -240,6 +242,13 @@
     "coursesFullTitle": "Les {count} parcours à découvrir",
     "sitesFullTitle": "Els {count} llocs de pràcticar a descobrir"
   },
+  "viewPoint": {
+    "title": "Fotos HD",
+    "label": "Foto HD",
+    "description": "Navegueu per imatges enriquides i interactives \"ultra alta definició\"",
+    "credit": "Crèdit fotogràfic :",
+    "displayPicture": "Navega per la foto"
+  },
   "Wind": {
     "N": "Nord",
     "S": "Sud",
@@ -271,6 +280,10 @@
     "numberOfParticipants": "Nombre de participants",
     "courseType": "Tipus de cursa",
     "network": "Xarxa"
+  },
+  "accordion": {
+    "open": "Open",
+    "close": "Close"
   },
   "consents": {
     "modal": {

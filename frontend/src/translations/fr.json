@@ -103,7 +103,8 @@
         "experiences": "Lieux de pratique",
         "signage": "Signalétiques",
         "infrastructure": "Aménagements",
-        "service": "Autres infos"
+        "service": "Autres infos",
+        "annotations": "Annotations"
       },
       "resetView": "Recentrer la carte"
     },
@@ -123,13 +124,14 @@
     "poiFullTitle": "{count, plural, =0 {Pas de patrimoine} one {# patrimoine à découvrir} other {Les # patrimoines à découvrir}}",
     "source": "Source",
     "touristicContent": "À proximité",
-    "readMore": "lire la suite",
     "knowMore": "En savoir plus",
-    "readLess": "lire moins",
+    "moreInformation": "Plus d'informations",
+    "lessInformation": "Moins d'informations",
     "close": "Fermer",
     "description": "Description",
     "recommandations": "Recommandations",
     "informationDesks": "Lieux de renseignement",
+    "medias": "Medias",
     "practicalInformations": "Infos pratiques",
     "forecastWidget": "Météo",
     "accessibility": "Accessibilité",
@@ -247,6 +249,13 @@
     "coursesFullTitle": "Les {count} parcours à découvrir",
     "sitesFullTitle": "Les {count} lieux de pratique à découvrir"
   },
+  "viewPoint": {
+    "title": "Images HD",
+    "label": "Image HD",
+    "description": "Naviguez dans des images \"très haute définition\" enrichies et interactives",
+    "credit": "Crédit image :",
+    "displayPicture": "Afficher l'image"
+  },
   "Wind": {
     "N": "Nord",
     "S": "Sud",
@@ -317,6 +326,10 @@
     "numberOfParticipants": "Nombre de participants",
     "courseType": "Type de parcours",
     "network": "Réseau"
+  },
+  "accordion": {
+    "open": "Ouvrir",
+    "close": "Fermer"
   },
   "consents": {
     "modal": {

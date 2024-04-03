@@ -10,7 +10,7 @@ import { OpenMapButton } from 'components/OpenMapButton';
 import { useShowOnScrollPosition } from 'hooks/useShowOnScrollPosition';
 import { useMediaPredicate } from 'react-media-hook';
 import { sizes } from 'stylesheet';
-import React, { useMemo, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { TrekChildGeometry } from 'modules/details/interface';
 import { cleanHTMLElementsFromString } from 'modules/utils/string';
 import Report from 'components/Report/Report';
@@ -51,6 +51,7 @@ import { DetailsSensitiveArea } from './components/DetailsSensitiveArea';
 import { useOnScreenSection } from './hooks/useHighlightedSection';
 import { DetailsGear } from './components/DetailsGear';
 import { useDetailsSections } from './useDetailsSections';
+import { DetailsMedias } from './components/DetailsMedias';
 
 interface Props {
   slug: string | string[] | undefined;
@@ -72,6 +73,8 @@ export const DetailsUIWithoutContext: React.FC<Props> = ({ slug, parentId, langu
     displayMobileMap,
     hideMobileMap,
     sectionRef,
+    mapId,
+    setMapId,
   } = useDetails(slug, parentId, language);
 
   const isMobile = useMediaPredicate('(max-width: 1024px)');
@@ -105,6 +108,14 @@ export const DetailsUIWithoutContext: React.FC<Props> = ({ slug, parentId, langu
     (getGlobalConfig().minAltitudeDifferenceToDisplayElevationProfile ?? 0) <
       higherDifferenceElevation;
 
+  const handleViewPointClick = useCallback(
+    (viewPointId: string) => {
+      setMapId(viewPointId);
+      displayMobileMap();
+    },
+    [displayMobileMap, setMapId],
+  );
+
   return useMemo(
     () => (
       <>
@@ -135,7 +146,7 @@ export const DetailsUIWithoutContext: React.FC<Props> = ({ slug, parentId, langu
                 id="details_informationContainer"
                 className="flex flex-col w-full relative -top-detailsHeaderMobile desktop:top-0 desktop:w-3/5"
               >
-                <OpenMapButton displayMap={displayMobileMap} />
+                <OpenMapButton displayMap={displayMobileMap} setMapId={setMapId} />
                 <div className="desktop:h-coverDetailsDesktop">
                   <Modal>
                     {({ isFullscreen, toggleFullscreen }) => (
@@ -197,6 +208,26 @@ export const DetailsUIWithoutContext: React.FC<Props> = ({ slug, parentId, langu
                         </section>
                       );
                     }
+                    if (
+                      hasNavigator &&
+                      section.name === 'medias' &&
+                      details.viewPoints.length > 0
+                    ) {
+                      return (
+                        <section
+                          key={section.name}
+                          ref={sectionRef[section.name]}
+                          id={`details_${section.name}_ref`}
+                        >
+                          <DetailsSection htmlId="details_medias" className={marginDetailsChild}>
+                            <DetailsMedias
+                              viewPoints={details.viewPoints}
+                              handleViewPointClick={handleViewPointClick}
+                            />
+                          </DetailsSection>
+                        </section>
+                      );
+                    }
                     if (section.name === 'itinerancySteps' && details.children.length > 0) {
                       return (
                         <section
@@ -242,8 +273,10 @@ export const DetailsUIWithoutContext: React.FC<Props> = ({ slug, parentId, langu
                               attachments: poi.attachments,
                               iconUri: poi.type.pictogramUri,
                               iconName: poi.type.label,
+                              viewPoints: poi.viewPoints,
                             }))}
                             type="POI"
+                            handleViewPointClick={handleViewPointClick}
                           />
                         </section>
                       );
@@ -477,6 +510,7 @@ export const DetailsUIWithoutContext: React.FC<Props> = ({ slug, parentId, langu
                           >
                             <Report
                               displayMobileMap={displayMobileMap}
+                              setMapId={setMapId}
                               trekId={details.id}
                               startPoint={{
                                 type: 'Point',
@@ -598,6 +632,7 @@ export const DetailsUIWithoutContext: React.FC<Props> = ({ slug, parentId, langu
                 )}
               >
                 <DetailsMapDynamicComponent
+                  mapId={mapId}
                   hasZoomControl={!isMobile}
                   hideMap={hideMobileMap}
                   title={details.title}
@@ -658,6 +693,12 @@ export const DetailsUIWithoutContext: React.FC<Props> = ({ slug, parentId, langu
                     id: `DETAILS-SERVICE-${service.id}`,
                   }))}
                   infrastructure={details.infrastructure}
+                  viewPoints={[
+                    ...details.viewPoints,
+                    ...details.pois.flatMap(({ viewPoints = [] }) => viewPoints).filter(Boolean),
+                  ]}
+                  displayMap={displayMobileMap}
+                  setMapId={setMapId}
                 />
               </div>
             </div>
@@ -679,6 +720,7 @@ export const DetailsUIWithoutContext: React.FC<Props> = ({ slug, parentId, langu
       refetch,
       sectionsReferences,
       trekFamily,
+      mapId,
     ],
   );
 };

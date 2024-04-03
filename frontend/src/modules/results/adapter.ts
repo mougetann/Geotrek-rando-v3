@@ -1,11 +1,25 @@
+import getNextConfig from 'next/config';
 import { ActivityChoices } from 'modules/activities/interface';
 import { CityDictionnary } from 'modules/city/interface';
 import { DifficultyChoices } from 'modules/filters/difficulties/interface';
 import { Choices } from 'modules/filters/interface';
 import { getThumbnails } from 'modules/utils/adapter';
 import { formatHours } from 'modules/utils/time';
-import { RawTrekResult, TrekResult } from './interface';
+import { NetworkDictionnary } from 'modules/networks/interface';
+import { InformationCardArray, RawTrekResult, TrekResult } from './interface';
 import { formatDistance } from './utils';
+
+const {
+  publicRuntimeConfig: {
+    resultCard: {
+      trek: {
+        location,
+        themes: { display: displayThemes },
+        informations = [],
+      },
+    },
+  },
+} = getNextConfig();
 
 export const dataUnits = {
   distance: 'm',
@@ -33,19 +47,22 @@ export const adaptTrekResultList = ({
   themes,
   activities,
   cityDictionnary,
+  networks,
 }: {
   resultsList: Partial<RawTrekResult>[];
   difficulties: DifficultyChoices;
   themes: Choices;
   activities: ActivityChoices;
   cityDictionnary: CityDictionnary;
+  networks: NetworkDictionnary;
 }): TrekResult[] =>
   resultsList.filter(isRawTrekResultComplete).map(rawResult => ({
     type: 'TREK',
     id: `${rawResult.id}`,
-    place: cityDictionnary[rawResult.departure_city]?.name ?? null,
+    place: (location.display === true && cityDictionnary[rawResult.departure_city]?.name) || null,
     name: rawResult.name,
-    tags: rawResult.themes.map(themeId => themes[themeId]?.label || ''),
+    tags:
+      displayThemes === true ? rawResult.themes.map(themeId => themes[themeId]?.label || '') : [],
     attachments: getThumbnails(rawResult.attachments),
     category: activities[rawResult.practice] ?? null,
     informations: [
@@ -64,9 +81,22 @@ export const adaptTrekResultList = ({
         value: `${formatDistance(rawResult.length_2d)}`,
       },
       {
-        label: 'elevation',
+        label: 'positiveElevation',
         value: `+${rawResult.ascent}${dataUnits.distance}`,
       },
+      {
+        label: 'negativeElevation',
+        value: `${rawResult.descent}${dataUnits.distance}`,
+      },
+      {
+        label: 'courseType',
+        value: rawResult.courseType?.label ?? '',
+        pictogramUri: rawResult.courseType?.pictogramUri ?? '',
+      },
+      {
+        label: 'networks',
+        value: rawResult.networks.map(networkId => networks[networkId]),
+      } as InformationCardArray,
       // we disable this button because the booking behaviour is not implemented yet
       // {
       //   label: 'reservationSystem',
@@ -75,5 +105,7 @@ export const adaptTrekResultList = ({
       //       ? `${rawResult.reservation_system}`
       //       : null,
       // },
-    ].filter(item => item.value.length > 0),
+    ]
+      .filter(item => informations.includes(item.label) && item.value.length > 0)
+      .sort((a, b) => informations.indexOf(a.label) - informations.indexOf(b.label)),
   }));

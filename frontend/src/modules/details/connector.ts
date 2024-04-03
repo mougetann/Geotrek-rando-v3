@@ -13,6 +13,7 @@ import { getInfrastructure } from 'modules/infrastructure/connector';
 import { getGlobalConfig } from 'modules/utils/api.config';
 import { getTouristicContentsNearTarget } from 'modules/touristicContent/connector';
 import { CommonDictionaries } from 'modules/dictionaries/interface';
+import { adaptViewPoints } from 'modules/viewPoint/adapter';
 import { getTrekRating } from '../trekRating/connector';
 import { getTrekRatingScale } from '../trekRatingScale/connector';
 import { adaptChildren, adaptResults, adaptTrekChildGeometry } from './adapter';
@@ -52,6 +53,8 @@ export const getDetails = async (
       getAccessibilities(language),
     ]);
 
+    const viewPoints = await adaptViewPoints(rawDetails.properties.view_points ?? []);
+
     const [
       activity,
       difficulty,
@@ -74,7 +77,7 @@ export const getDetails = async (
       displayRelatedSignages === true ? getSignage(language, id, 'TREK') : null,
       displayRelatedServices === true ? getService(language, id, 'TREK') : null,
       displayRelatedInfrastructures === true ? getInfrastructure(language, id, 'TREK') : null,
-      getTrekResultsById(rawDetails.properties.children, language, commonDictionaries),
+      getTrekResultsById(rawDetails.properties.children, language, networks, commonDictionaries),
       getGlobalConfig().enableSensitiveAreas && displayRelatedSensitiveAreas === true
         ? getSensitiveAreas('trek', rawDetails.properties.id, language)
         : [],
@@ -118,6 +121,7 @@ export const getDetails = async (
               project: getGlobalConfig().reservationProject,
             }
           : null,
+      viewPoints,
     });
   } catch (e) {
     console.error('Error in details/connector principal', e);
